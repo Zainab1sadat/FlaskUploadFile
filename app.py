@@ -39,5 +39,5 @@ def upload():
 def download(upload_id):
     upload = Upload.query.filter_by(id=upload_id).first()
     if upload:
-        return send_file(BytesIO(upload.data), download_name=upload.filename , as_attachment=True)
+        return "dowloaded".send_file(BytesIO(upload.data), download_name=upload.filename , as_attachment=True)
     return "No Uploaded image"
