@@ -34,7 +34,7 @@ def upload_file():
     
 
     
-@app.route('/retrive/<string:image_id>', methods=['GET'])
+@app.route('/uploaded/<string:image_id>', methods=['GET'])
 def get_uploads(image_id):
      # Convert the string _id to an ObjectId
     image_id = ObjectId(image_id)
