@@ -42,7 +42,6 @@ def get_uploads(image_id):
     file = fs.get(image_id)
      # Send the image data as a response
     return send_file(file, as_attachment=True, download_name=file.filename)
-    # return Response(file.read(), mimetype=file.content_type)
    
 
 if __name__ == '__main__':
