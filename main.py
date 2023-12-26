@@ -1,15 +1,17 @@
-from flask import Flask, Response, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file
 from werkzeug.utils import secure_filename
 from pymongo import MongoClient
 from bson import ObjectId
 import gridfs 
-from flask_pymongo import PyMongo
 
 
 
 app = Flask(__name__)
+# MongoClient object to connect to MongoDB server
 client = MongoClient('mongodb://localhost:27017/')
+#Access to database
 db = client['uploadfileflask']
+#Gridfs object for database
 fs = gridfs.GridFS(db)
 
 
@@ -27,6 +29,7 @@ def upload_file():
         return jsonify({"error":"No file Selected"}),400
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
+        # Store file in Gridfs
         fs_id = fs.put(file, filename=filename)
         return jsonify({"file_id": str(fs_id)})
     else:
@@ -34,12 +37,12 @@ def upload_file():
     
 
     
-@app.route('/uploaded/<string:image_id>', methods=['GET'])
-def get_uploads(image_id):
+@app.route('/uploaded/<string:file_id>', methods=['GET'])
+def get_uploads(file_id):
      # Convert the string _id to an ObjectId
-    image_id = ObjectId(image_id)
+    file_id = ObjectId(file_id)
     # get the image from GridFS by its ID
-    file = fs.get(image_id)
+    file = fs.get(file_id)
      # Send the image data as a response
     return send_file(file, as_attachment=True, download_name=file.filename)
    
