@@ -30,7 +30,7 @@ def upload_file():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         # Store file in Gridfs
-        fs_id = fs.put(file, filename=filename)
+        fs_id = fs.put(file, filename=file.filename)
         return jsonify({"file_id": str(fs_id)})
     else:
         return jsonify({"error": "File type not allowed"}),400
