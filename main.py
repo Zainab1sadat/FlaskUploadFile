@@ -24,9 +24,12 @@ def allowed_file(filename):
 def upload_file():
     if 'file' not in request.files:
         return jsonify({"error":"No file"}),201
+    
     file = request.files['file']
+    
     if file.filename == '':
         return jsonify({"error":"No file Selected"}),400
+    
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         # Store file in Gridfs
